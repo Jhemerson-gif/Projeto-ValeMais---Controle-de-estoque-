@@ -52,4 +52,52 @@ public class EstoqueGerenciador {
 
         }
     }
+
+    // Método que envia o produto direto para o MySQL
+    public void salvarNoBanco(Itemestoque item) {
+        // O comando SQL com pontos de interrogação (?) onde vão entrar os dados
+        String sql = "INSERT INTO item_estoque (nome_produto, quantidade, data_validade, codigo_carga) VALUES (?, ?, ?, ?)";
+        // O try-with-resources já fecha a conexão automaticamente no final
+        try (java.sql.Connection conexao = ConexaoBanco.obterConexao();
+             java.sql.PreparedStatement comando = conexao.prepareStatement(sql)) {
+            // Trocamos os '?' pelos dados que estão no objeto Java
+            comando.setString(1, item.getNomedoProduto());
+            comando.setInt(2, item.getQuantidadeProduto());
+            // Para datas, o JDBC precisa converter do LocalDate do Java para o Date do SQL
+            comando.setDate(3, java.sql.Date.valueOf(item.getDataValidade()));
+            comando.setInt(4, item.getCodigoCarga());
+            // Executa o comando lá no MySQL!
+            comando.execute();
+            System.out.println("✅ Salvo no Banco de Dados: " + item.getNomedoProduto());
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao salvar o produto no banco.");
+            e.printStackTrace();
+        }
+    }
+
+    public void buscarTodosDoBanco() {
+        String sql = "SELECT * FROM item_estoque";
+        try (java.sql.Connection conexao = ConexaoBanco.obterConexao();
+             java.sql.PreparedStatement comando = conexao.prepareStatement(sql);
+             // O executeQuery() devolve a tabela com os resultados
+             java.sql.ResultSet tabelaResultado = comando.executeQuery()) {
+            System.out.println("\n--- LENDO DADOS DIRETO DO MYSQL ---");
+
+            // O comando .next() pula para a próxima linha da tabela.
+            // Enquanto tiver linha, ele repete esse bloco (while):
+            while (tabelaResultado.next()) {
+
+                // Pegamos o valor de cada coluna da linha atual
+                int id = tabelaResultado.getInt("id");
+                String nome = tabelaResultado.getString("nome_produto");
+                int qtd = tabelaResultado.getInt("quantidade");
+                java.sql.Date validade = tabelaResultado.getDate("data_validade");
+                // Mostra na tela
+                System.out.println("ID " + id + " | Produto: " + nome + " | Qtd: " + qtd + " | Validade: " + validade);
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Erro ao buscar os produtos no banco.");
+            e.printStackTrace();
+        }
+    }
 }

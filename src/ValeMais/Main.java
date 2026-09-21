@@ -28,6 +28,16 @@ public class Main {
         produto3.darBaixa(5);
 
         System.out.println("Nova quantidade de leite: "+ produto3.getQuantidadeProduto());
+
+
+
+        EstoqueGerenciador gerenciador2 = new EstoqueGerenciador();
+
+        Itemestoque produtoNovo = new Itemestoque("Biscoito Recheado", 30, LocalDate.now().plusDays(100), 200);
+
+        gerenciador2.salvarNoBanco(produtoNovo);
+
+        gerenciador2.buscarTodosDoBanco();
     }
 
 }

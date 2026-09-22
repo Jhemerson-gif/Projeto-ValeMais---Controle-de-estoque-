@@ -1,5 +1,6 @@
 package ValeMais;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -7,21 +8,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        int opcao;
 
         Scanner sc = new Scanner(System.in);
 
         EstoqueGerenciador gerenciador = new EstoqueGerenciador();
 
-        while(true){
+        do{
 
             System.out.println("\n=== 🛒 SISTEMA VALE MAIS ===");
             System.out.println("1 - Cadastrar Novo Produto");
             System.out.println("2 - Listar Estoque do Banco");
+            System.out.println("3 - Remover Estoque do Banco");
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
-            int opcao = Integer.parseInt(sc.nextLine());
+            opcao = Integer.parseInt(sc.nextLine());
 
 
         switch (opcao) {
@@ -60,10 +62,24 @@ public class Main {
                 gerenciador.buscarTodosDoBanco();
 
             }
+            case 3 ->{
+
+                System.out.println("Digite o ID do produto que deseja remover: ");
+                int idProduto = Integer.parseInt(sc.nextLine());
+
+
+                try {
+                    gerenciador.removerProduto(idProduto);
+                    System.out.println("Produto removido com sucesso!");
+                } catch (SQLException e) {
+                    System.out.println("ID não encontrado.");
+                    throw new RuntimeException(e);
+                }
+            }
 
             case 0 ->{
                 System.out.println("Encerrando o sistema...");
-                break;
+
 
 
             }
@@ -74,7 +90,7 @@ public class Main {
         }
 
 
-        }
+        }while(opcao != 0);
 
 
 

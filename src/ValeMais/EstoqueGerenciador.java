@@ -1,5 +1,6 @@
 package ValeMais;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,5 +143,28 @@ public class EstoqueGerenciador {
             e.printStackTrace();
         }
 
+
+    }
+    public boolean removerProduto(int produtoId) throws SQLException {
+
+        String sql = "DELETE FROM lotes_estoque Where produto_id = ?";
+
+        try (java.sql.Connection conexao = ConexaoBanco.obterConexao();
+
+        java.sql.PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+        comando.setInt(1, produtoId);
+        
+        int linhasAfetadas = comando.executeUpdate();
+        
+        return linhasAfetadas > 0;
+        
+        
+
+    }catch(SQLException e){
+            System.out.println("Erro ao remover o produto: "+ e.getMessage());        
+            return false;
+        
+        }
     }
 }

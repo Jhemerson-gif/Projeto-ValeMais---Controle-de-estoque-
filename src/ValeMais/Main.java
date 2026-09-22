@@ -1,43 +1,86 @@
 package ValeMais;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
+
+
+        Scanner sc = new Scanner(System.in);
+
         EstoqueGerenciador gerenciador = new EstoqueGerenciador();
 
+        while(true){
 
-        Itemestoque produto1 = new Itemestoque("Feijão",50, LocalDate.now().plusDays(50),101);
-        Itemestoque produto2 = new Itemestoque("Arroz Branco", 100, LocalDate.now().plusDays(20), 102);
-        Itemestoque produto3 = new Itemestoque("Leite Integral", 30, LocalDate.now().plusDays(5), 103);
-        Itemestoque produto4 = new Itemestoque("Pão de Forma", 10, LocalDate.now().minusDays(2), 104);
+            System.out.println("\n=== 🛒 SISTEMA VALE MAIS ===");
+            System.out.println("1 - Cadastrar Novo Produto");
+            System.out.println("2 - Listar Estoque do Banco");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
 
-        gerenciador.addItems(produto1);
-        gerenciador.addItems(produto2);
-        gerenciador.addItems(produto3);
-        gerenciador.addItems(produto4);
-
-
-        gerenciador.exibirTodosOsItens();
-
-        gerenciador.verificadorDeValidades();
+            int opcao = Integer.parseInt(sc.nextLine());
 
 
-        produto3.darBaixa(5);
+        switch (opcao) {
 
-        System.out.println("Nova quantidade de leite: "+ produto3.getQuantidadeProduto());
+            case 1 ->{
+                System.out.println("Digite o nome da Marca do Produto");
+                String nomeMarcaProduto = sc.nextLine();
+
+                System.out.print("Digite o nome do produto: ");
+                String nomeProduto = sc.nextLine();
+
+
+                Produto novoProduto = new Produto(nomeMarcaProduto,nomeProduto);
+                int produtoId = gerenciador.salvarProduto(novoProduto);
+
+                if(produtoId != -1){
+
+                    System.out.println("Digite a quantidade do produto: ");
+                    int quantidadeProduto = Integer.parseInt(sc.nextLine());
+
+                    System.out.println("Qual o código de carga (número)?");
+                    int codigoCarga = Integer.parseInt(sc.nextLine());
+
+                    System.out.print("Qual a data de validade? (Digite no formato AAAA-MM-DD): ");
+                    String dataTexto =  sc.nextLine();
+
+                    LocalDate dataValidade = LocalDate.parse(dataTexto);
+
+                    gerenciador.salvarLote(produtoId, quantidadeProduto, dataValidade, codigoCarga);
+                }
+
+            }
+
+            case 2 ->{
+
+                gerenciador.buscarTodosDoBanco();
+
+            }
+
+            case 0 ->{
+                System.out.println("Encerrando o sistema...");
+                break;
+
+
+            }
+
+            default -> System.out.println("Opção inválida, tente novamente!");
+
+
+        }
+
+
+        }
 
 
 
-        EstoqueGerenciador gerenciador2 = new EstoqueGerenciador();
 
-        Itemestoque produtoNovo = new Itemestoque("Biscoito Recheado", 30, LocalDate.now().plusDays(100), 200);
 
-        gerenciador2.salvarNoBanco(produtoNovo);
 
-        gerenciador2.buscarTodosDoBanco();
     }
 
 }

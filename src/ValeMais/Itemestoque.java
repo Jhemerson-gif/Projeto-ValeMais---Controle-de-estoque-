@@ -3,6 +3,7 @@ package ValeMais;
 import java.time.LocalDate;
 
 public class Itemestoque {
+    private String nomeMarcaProduto;
     private String nomedoProduto;
     private int quantidadeProduto;
     private int entradaProduto;
@@ -10,7 +11,8 @@ public class Itemestoque {
     private LocalDate dataEntrada;
     private int codigoCarga;
 
-    public Itemestoque(String nomedoProduto, int quantidadeProduto, LocalDate dataValidade, int codigoCarga) {
+    public Itemestoque(String nomeMarcaProduto,String nomedoProduto, int quantidadeProduto, LocalDate dataValidade, int codigoCarga) {
+        setNomeMarcaProduto(nomeMarcaProduto);
         setNomedoProduto(nomedoProduto);
         setQuantidadeProduto(quantidadeProduto);
         setEntradaProduto(entradaProduto);
@@ -38,6 +40,14 @@ public class Itemestoque {
 
     public void setEntradaProduto(int entradaProduto) {
         this.entradaProduto = entradaProduto;
+    }
+
+    public String getNomeMarcaProduto() {
+        return nomeMarcaProduto;
+    }
+
+    public void setNomeMarcaProduto(String nomeMarcaProduto) {
+        this.nomeMarcaProduto = nomeMarcaProduto;
     }
 
     public String getNomedoProduto() {

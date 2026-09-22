@@ -2,46 +2,36 @@ package ValeMais;
 
 public class Produto {
 
-    private String categoria;
-    private String codigo;
-    private String descricao;
-    private double preco;
+    private int id;
+    private String marca;
+    private String nomeProduto;
 
-    public Produto(String codigo, String descricao, double preco, String categoria) {
-        setCategoria(categoria);
-        setCodigo(codigo);
-        setDescricao(descricao);
-        setPreco(preco);
-
+    public Produto(String marca, String nomeProduto) {
+        this.marca = marca;
+        this.nomeProduto = nomeProduto;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
-    public double getPreco() {
-        return preco;
+    public String getNomeProduto() {
+        return nomeProduto;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-    public String getCategoria() {
-        return categoria;
-    }
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
     }
 }
